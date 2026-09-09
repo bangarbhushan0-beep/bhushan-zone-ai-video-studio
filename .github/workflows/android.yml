@@ -24,11 +24,22 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      - name: Extract Android project
+        run: |
+          mkdir android-project
+          unzip -q BhushanZone_Android_App.zip -d android-project
+
+      - name: Find Android project
+        run: |
+          PROJECT_DIR=$(dirname "$(find android-project -name settings.gradle.kts -print -quit)")
+          echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
+          echo "Found project at: $PROJECT_DIR"
+
       - name: Build APK
-        run: gradle :app:assembleDebug
+        run: gradle -p "$PROJECT_DIR" :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: bhushan-zone-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: android-project/**/app/build/outputs/apk/debug/*.apk
