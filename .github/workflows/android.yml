@@ -35,6 +35,16 @@ jobs:
           echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
           echo "Found project at: $PROJECT_DIR"
 
+      - name: Fix Java 17 target
+        run: |
+          APP_FILE="$PROJECT_DIR/app/build.gradle.kts"
+          sed -i '/android {/a\
+              compileOptions {\
+                  sourceCompatibility = JavaVersion.VERSION_17\
+                  targetCompatibility = JavaVersion.VERSION_17\
+              }' "$APP_FILE"
+          echo "Java target fixed to 17"
+
       - name: Build APK
         run: gradle -p "$PROJECT_DIR" :app:assembleDebug
 
