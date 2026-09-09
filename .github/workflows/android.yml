@@ -27,7 +27,7 @@ jobs:
       - name: Extract Android project
         run: |
           mkdir android-project
-          unzip -q BhushanZone_Android_App.zip -d android-project
+          unzip -q  BhushanZone_AI_Title_Studio_v2.zip -d android-project
 
       - name: Find Android project
         run: |
